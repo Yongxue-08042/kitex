@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"sync"
-
+	"github.com/cloudwego/dynamicgo/meta"
 	dthrift "github.com/cloudwego/dynamicgo/thrift"
 	"github.com/cloudwego/thriftgo/parser"
 
@@ -385,7 +385,7 @@ func newServiceDescriptorFromContent(path, content string, includes map[string]s
 
 func newDynamicGoDscFromContent(svc *descriptor.ServiceDescriptor, path, content string, includes map[string]string, isAbsIncludePath bool) error {
 	// ServiceDescriptor of dynamicgo
-	dOpts := dthrift.Options{EnableThriftBase: true}
+	dOpts := dthrift.Options{EnableThriftBase: true, ParseServiceMode: meta.CombineServices}
 	dsvc, err := dOpts.NewDescritorFromContent(context.Background(), path, content, includes, isAbsIncludePath)
 	if err != nil {
 		klog.CtxWarnf(context.Background(), "KITEX: failed to get dynamicgo service descriptor, fall back to the original way, error=%s", err)
